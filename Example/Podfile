@@ -1,4 +1,4 @@
-use_frameworks!
+#use_frameworks!
 
 platform :ios, '10.0'
 
@@ -7,7 +7,5 @@ target 'FlexBoxKit_Example' do
 
   target 'FlexBoxKit_Tests' do
     inherit! :search_paths
-
-    
   end
 end
