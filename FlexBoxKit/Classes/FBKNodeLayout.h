@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithNodeModel:(FBKNodeModel *)nodeModel;
 
-- (UIView *)layout;
+- (nullable UIView *)layout;
 
 @end
 
