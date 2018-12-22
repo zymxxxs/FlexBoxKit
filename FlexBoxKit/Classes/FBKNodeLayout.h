@@ -12,11 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FBKNodeLayout : NSObject
 
-@property (nonatomic, strong) FBKNodeModel *nodeModel;
-
-- (instancetype)initWithNodeModel:(FBKNodeModel *)nodeModel;
-
-- (nullable UIView *)layout;
++ (nullable UIView *)layoutWithNodeModel:(FBKNodeModel *)nodeModel;
 
 @end
 

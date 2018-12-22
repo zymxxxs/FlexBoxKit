@@ -7,23 +7,15 @@
 
 #import "FBKNodeLayout.h"
 #import "FBKYogaUtilities.h"
+#import "UIColor+FBKExtension.h"
 
 #import <YogaKit/UIView+Yoga.h>
 #import <YogaKit/YGLayout.h>
 
 @implementation FBKNodeLayout
 
-- (instancetype)initWithNodeModel:(FBKNodeModel *)nodeModel {
-    self = [super init];
-    if (self) {
-        self.nodeModel = nodeModel;
-    }
-    return self;
-}
-
-- (UIView *)layout {
-    UIView *rootView = [[UIView alloc] init];
-    NSString *className = _nodeModel.className;
++ (UIView *)layoutWithNodeModel:(FBKNodeModel *)nodeModel {
+    NSString *className = nodeModel.className;
 
     if (!className) return nil;
 
@@ -34,15 +26,20 @@
     }
 
     UIView *nodeView = [[cls alloc] init];
-    [rootView addSubview:nodeView];
-
-    [rootView configureLayoutWithBlock:^(YGLayout *_Nonnull layout) {
+    nodeView.backgroundColor = [UIColor fbk_randomColor];
+    [nodeView configureLayoutWithBlock:^(YGLayout *_Nonnull layout) {
         layout.isEnabled = YES;
-        for (FBKLayoutModel *layoutModel in self.nodeModel.layouts) {
+        for (FBKLayoutModel *layoutModel in nodeModel.layouts) {
             FBKSetLayoutParam(layout, layoutModel.name, layoutModel.value);
         }
     }];
-    return rootView;
+    if (nodeModel.children) {
+        for (FBKNodeModel *childNodeLayout in nodeModel.children) {
+            UIView *childNodeView = [self layoutWithNodeModel:childNodeLayout];
+            if (childNodeView) [nodeView addSubview:childNodeView];
+        }
+    }
+    return nodeView;
 }
 
 static YGValue FBKTransformYGValue(NSString *value) {

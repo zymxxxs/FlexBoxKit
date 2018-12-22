@@ -7,12 +7,8 @@
 //
 
 #import "ViewController.h"
-#import <YogaKit/YGLayout.h>
-#import <YogaKit/UIView+Yoga.h>
+#import <FlexBoxKit/FBKRootView.h>
 
-
-#import <FlexBoxKit/FlexBoxKit.h>
-#import <FlexBoxKit/FBKYogaUtilities.h>
 
 @interface ViewController ()
 
@@ -20,22 +16,24 @@
 
 @end
 
-@implementation ViewController
+@implementation ViewController {
+    FBKRootView *_rootView;
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	
     NSString *layoutXMLPath = [[NSBundle mainBundle] pathForResource:@"Test" ofType:@"xml"];
-    FBKXMLParser *xmlParser = [[FBKXMLParser alloc] init];
-    FBKNodeModel *nodeModel = [xmlParser parseWithXMLPath:layoutXMLPath];
+    _rootView = [[FBKRootView alloc] initWithXMLPath:layoutXMLPath];
+    _rootView.frame = self.view.bounds;
+    [self.view addSubview:_rootView];
     
-    FBKNodeLayout *nodeLayout = [[FBKNodeLayout alloc] initWithNodeModel:nodeModel];
-    UIView *rootView = [nodeLayout layout];
-    [self.view addSubview: rootView];
-    
-    [rootView.yoga applyLayoutPreservingOrigin:true];
-    
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    _rootView.frame = self.view.bounds;
 }
 
 
