@@ -30,7 +30,7 @@
     [nodeView configureLayoutWithBlock:^(YGLayout *_Nonnull layout) {
         layout.isEnabled = YES;
         for (FBKLayoutModel *layoutModel in nodeModel.layouts) {
-            FBKSetLayoutParam(layout, layoutModel.name, layoutModel.value);
+            FBKSetYogaLayoutParam(layout, layoutModel.name, layoutModel.value);
         }
     }];
     if (nodeModel.children) {
@@ -47,11 +47,16 @@ static YGValue FBKTransformYGValue(NSString *value) {
 
     if ([value isEqualToString:@"auto"]) return YGValueAuto;
 
+    if ([value hasSuffix:@"%"]) {
+        NSString *realValue = [value stringByReplacingOccurrencesOfString:@"%" withString:@""];
+        return YGPercentValue([realValue doubleValue]);
+    }
+
     return YGPointValue([value doubleValue]);
 }
 
-static void FBKSetLayoutParam(YGLayout *layout, NSString *key, NSString *value) {
-#define FBK_SET_YG_ENUM_VALUE(prop, table, type)     \
+static void FBKSetYogaLayoutParam(YGLayout *layout, NSString *key, NSString *value) {
+#define FBK_SET_YG_ENUM(prop, table, type)           \
     if ([key isEqualToString:@(#prop)]) {            \
         layout.prop = (type)[table[value] intValue]; \
         return;                                      \
@@ -69,16 +74,16 @@ static void FBKSetLayoutParam(YGLayout *layout, NSString *key, NSString *value) 
         return;                            \
     }
 
-    FBK_SET_YG_ENUM_VALUE(direction, FBKYgDirection(), YGDirection);
-    FBK_SET_YG_ENUM_VALUE(flexDirection, FBKYgFlexDirection(), YGFlexDirection);
-    FBK_SET_YG_ENUM_VALUE(justifyContent, FBKYgJustify(), YGJustify);
-    FBK_SET_YG_ENUM_VALUE(alignContent, FBKYgAlign(), YGAlign);
-    FBK_SET_YG_ENUM_VALUE(alignItems, FBKYgAlign(), YGAlign);
-    FBK_SET_YG_ENUM_VALUE(alignSelf, FBKYgAlign(), YGAlign);
-    FBK_SET_YG_ENUM_VALUE(position, FBKYgPositionType(), YGPositionType);
-    FBK_SET_YG_ENUM_VALUE(flexWrap, FBKYgWrap(), YGWrap);
-    FBK_SET_YG_ENUM_VALUE(overflow, FBKYgOverflow(), YGOverflow);
-    FBK_SET_YG_ENUM_VALUE(display, FBKYgDisplay(), YGDisplay);
+    FBK_SET_YG_ENUM(direction, FBKYgDirection(), YGDirection);
+    FBK_SET_YG_ENUM(flexDirection, FBKYgFlexDirection(), YGFlexDirection);
+    FBK_SET_YG_ENUM(justifyContent, FBKYgJustify(), YGJustify);
+    FBK_SET_YG_ENUM(alignContent, FBKYgAlign(), YGAlign);
+    FBK_SET_YG_ENUM(alignItems, FBKYgAlign(), YGAlign);
+    FBK_SET_YG_ENUM(alignSelf, FBKYgAlign(), YGAlign);
+    FBK_SET_YG_ENUM(position, FBKYgPositionType(), YGPositionType);
+    FBK_SET_YG_ENUM(flexWrap, FBKYgWrap(), YGWrap);
+    FBK_SET_YG_ENUM(overflow, FBKYgOverflow(), YGOverflow);
+    FBK_SET_YG_ENUM(display, FBKYgDisplay(), YGDisplay);
 
     FBK_SET_YG_CGFloat_VALUE(flexGrow);
     FBK_SET_YG_CGFloat_VALUE(flexShrink);

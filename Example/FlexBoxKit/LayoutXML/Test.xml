@@ -3,8 +3,7 @@
     marginTop: 44,
     marginLeft:20,
     marginRight: 20,
-    marginBottom: 20,
-    display: flex
+    marginBottom: 20
     ">
     <UIView layout='flexGrow:1, margin: 10, flexDirection:row'>
         <UIView layout='flexGrow:1, margin: 2'></UIView>
@@ -18,8 +17,6 @@
     <UIView layout='flexGrow:1, margin: 10, flexDirection:row'>
         <UIView layout='flexGrow:1, margin: 2'></UIView>
         <UIView layout='flexGrow:1, margin: 2'></UIView>
-        <UIView layout='flexGrow:1, margin: 2'></UIView>
+        <UIView layout='flexGrow:1, margin: 2, flexShrink: 1'></UIView>
     </UIView>
-
-
 </UIView>

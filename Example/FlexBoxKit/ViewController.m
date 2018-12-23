@@ -9,10 +9,7 @@
 #import "ViewController.h"
 #import <FlexBoxKit/FBKRootView.h>
 
-
 @interface ViewController ()
-
-
 
 @end
 
@@ -20,22 +17,19 @@
     FBKRootView *_rootView;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-	
-    NSString *layoutXMLPath = [[NSBundle mainBundle] pathForResource:@"Test" ofType:@"xml"];
+    
+    NSString *layoutXMLPath = [[NSBundle mainBundle] pathForResource:@"Test"
+                                                              ofType:@"xml"];
     _rootView = [[FBKRootView alloc] initWithXMLPath:layoutXMLPath];
     _rootView.frame = self.view.bounds;
     [self.view addSubview:_rootView];
-    
 }
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     _rootView.frame = self.view.bounds;
 }
-
-
 
 @end
